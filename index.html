@@ -260,6 +260,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/rsync/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="煜华">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/rsync/" itemprop="url">rsync</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T20:21:09+08:00">2018-02-28</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="rsync简介"><a href="#rsync简介" class="headerlink" title="rsync简介"></a>rsync简介</h2><blockquote>
+<p>rsync是Unix下的一款应用软件，它能同步更新两处计算机的文件与目录，并适当利用差分编码以减少数据传输量。rsync中的一项同类软件不常见的重要特性是每个目标的镜像只需发送一次。rsync可以拷贝／显示目录内容，以及拷贝文件，并可选压缩以及递归拷贝。</p>
+<p>在常驻模式（daemon mode）下，rsync默认监听TCP端口873，以原生rsync传输协议或者通过远程shell如RSH或者SSH提供文件。SSH模式下，rsync客户端运行程序必须同时在本地和远程机器上安装。</p>
+<p>rsync是以GNU通用公共许可证发行的自由软件。</p>
+</blockquote>
+<p><a href="https://rsync.samba.org/" target="_blank" rel="noopener">rsync官网</a></p>
+<h2 id="rsync模式"><a href="#rsync模式" class="headerlink" title="rsync模式"></a>rsync模式</h2><blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span>     Local:  rsync [OPTION...] SRC... [DEST]       #本地模式，不加目标参数类似ls</span><br><span class="line"><span class="meta">&gt;</span></span><br><span class="line"><span class="meta">&gt;</span></span><br><span class="line"><span class="meta">&gt;</span>     Access via remote shell:       #远程模式，实现不同server间的数据传输</span><br><span class="line"><span class="meta">&gt;</span>       Pull: rsync [OPTION...] [USER@]HOST:SRC... [DEST]</span><br><span class="line"><span class="meta">&gt;</span>       Push: rsync [OPTION...] SRC... [USER@]HOST:DEST</span><br><span class="line"><span class="meta">&gt;</span>       </span><br><span class="line"><span class="meta">&gt;</span>     Access via rsync daemon:       #使用rsync进程传输数据，需要一方启动rsync daemon服务</span><br><span class="line"><span class="meta">&gt;</span>       Pull: rsync [OPTION...] [USER@]HOST::SRC... [DEST]</span><br><span class="line"><span class="meta">&gt;</span>             rsync [OPTION...] rsync://[USER@]HOST[:PORT]/SRC... [DEST]</span><br><span class="line"><span class="meta">&gt;</span>       Push: rsync [OPTION...] SRC... [USER@]HOST::DEST</span><br><span class="line"><span class="meta">&gt;</span>             rsync [OPTION...] SRC... rsync://[USER@]HOST[:PORT]/DEST</span><br><span class="line"><span class="meta">&gt;</span></span><br><span class="line"><span class="meta">&gt;</span>     Usages with just one SRC arg and no DEST arg will list the source files</span><br><span class="line"><span class="meta">&gt;</span>     instead of copying.</span><br><span class="line"><span class="meta">&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>例子:</p>
+<ul>
+<li>本地</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[userb@serverb ~]$ rsync .</span><br><span class="line">drwx------        4096 2018/02/28 13:02:26 .</span><br><span class="line">-rw-r--r--          18 2017/03/23 08:15:00 .bash_logout</span><br><span class="line">-rw-r--r--         176 2017/03/23 08:15:00 .bash_profile</span><br><span class="line">-rw-r--r--         124 2017/03/23 08:15:00 .bashrc</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过ssh远程传输，注意/home/userb/userbdir后面加不加“/”结果是不一样的，不加“/”表示传输整个userbdir目录，包括userbdir目录本身，加上“/”表示只传输 userbdir目录下面的内容</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">[userb@serverb ~]$ rsync -avz /home/userb/userbdir  usera@servera:/home/usera/  </span><br><span class="line">The authenticity of host 'servera (192.168.122.10)' can't be established.</span><br><span class="line">RSA key fingerprint is 46:bf:a8:14:ee:ad:3c:9f:b9:d4:82:31:ea:b2:82:ad.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)? yes</span><br><span class="line">Warning: Permanently added 'servera,192.168.122.10' (RSA) to the list of known hosts.</span><br><span class="line">usera@servera's password:</span><br><span class="line">Permission denied, please try again.</span><br><span class="line">usera@servera's password:</span><br><span class="line">sending incremental file list</span><br><span class="line">userbdir/</span><br><span class="line">userbdir/1</span><br><span class="line">userbdir/10</span><br><span class="line">userbdir/2</span><br><span class="line">userbdir/3</span><br><span class="line">userbdir/4</span><br><span class="line">userbdir/5</span><br><span class="line">userbdir/6</span><br><span class="line">userbdir/7</span><br><span class="line">userbdir/8</span><br><span class="line">userbdir/9</span><br><span class="line"></span><br><span class="line">sent 495 bytes  received 206 bytes  66.76 bytes/sec</span><br><span class="line">total size is 0  speedup is 0.00</span><br><span class="line"></span><br><span class="line">[userb@serverb ~]$ rsync -avz /home/userb/userbdir/  usera@servera:/home/usera/</span><br><span class="line">usera@servera's password:</span><br><span class="line">sending incremental file list</span><br><span class="line">./</span><br><span class="line">1</span><br><span class="line">10</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line"></span><br><span class="line">sent 469 bytes  received 205 bytes  192.57 bytes/sec</span><br><span class="line">total size is 0  speedup is 0.00</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过rsync daemon服务传输需要有一台开通rsync daemon进程的机器作为服务器。servera作为rsync server，serverb作为client</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[userb@serverb ~]$ rsync -avz a rsync_user@servera::backup --password-file=/home/userb/rsync.password</span><br><span class="line">sending incremental file list</span><br><span class="line"></span><br><span class="line">sent 37 bytes  received 8 bytes  90.00 bytes/sec</span><br><span class="line">total size is 0  speedup is 0.00</span><br></pre></td></tr></table></figure>
+<h2 id="rsyncd-conf"><a href="#rsyncd-conf" class="headerlink" title="rsyncd.conf"></a>rsyncd.conf</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@servera backup]# cat /etc/rsyncd.conf</span><br><span class="line"><span class="meta">#</span>blog:http://yangh.cc</span><br><span class="line"><span class="meta">#</span>#global configuration##</span><br><span class="line"><span class="meta">#</span>启动rsync daemon进程需要一个用户，这边设置rsync用户,需要手动创建</span><br><span class="line">uid = rsync   </span><br><span class="line">gid = rsync</span><br><span class="line">use chroot = no </span><br><span class="line">max connections = 20</span><br><span class="line">timeout = 300</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line">ignore errors</span><br><span class="line">read only = false</span><br><span class="line">list = false</span><br><span class="line">hosts allow = 192.168.122.0/24</span><br><span class="line">hosts deny = 0.0.0.0/32</span><br><span class="line">auth users = rsync_user</span><br><span class="line">secrets file = /etc/rsync.password</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>#module configuration##</span><br><span class="line"><span class="meta">#</span>一般在模块下定义备份路径，不同的模块下放不同的路径，客户端传输时命令直接server::模块名就行了</span><br><span class="line">[backup]</span><br><span class="line">path = /home/usera/backup</span><br></pre></td></tr></table></figure>
+<h2 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h2><ul>
+<li>-a 保留文件属性</li>
+<li>-v 输出命令执行信息</li>
+<li>-z 压缩  一般-avz连起来用</li>
+<li>-P 查看传输进度</li>
+<li>–delete 删除，慎用，一般用于服务器间数据同步，用前先测试</li>
+<li>–exclude= 排除某个文件 </li>
+<li>–exclude-from= 排除文件里列出来的文件</li>
+<li>-e 指定通道，默认走ssh但是ssh如果改了默认端口需要用这个参数</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[userb@serverb ~]$ rsync -avz -e "ssh -p 22333" a usera@servera:/home/usera/</span><br><span class="line">usera@servera's password:</span><br><span class="line">sending incremental file list</span><br><span class="line">a</span><br><span class="line"></span><br><span class="line">sent 77 bytes  received 31 bytes  24.00 bytes/sec</span><br><span class="line">total size is 0  speedup is 0.00</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/NFS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -644,7 +801,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
